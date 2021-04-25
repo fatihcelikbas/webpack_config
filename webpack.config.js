@@ -7,6 +7,7 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 let mode = "development";
 let target = "web";
+let source_map = "source-map";
 const plugins = [
   new FaviconsWebpackPlugin('./public/icon.svg'), // it will generate the right icoN
   new CleanWebpackPlugin(),
@@ -20,6 +21,7 @@ if (process.env.NODE_ENV === "production") {
   mode = "production";
   // Temporary workaround for 'browserslist' bug that is being patched in the near future
   target = "browserslist";
+  source_map = false;
 }
 
 if (process.env.SERVE) {
@@ -105,7 +107,7 @@ module.exports = {
 
   target: target,
 
-  devtool: "source-map",
+  devtool: source_map,
 
   resolve: {
     extensions: [".js", ".jsx"],
