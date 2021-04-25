@@ -1,8 +1,8 @@
 {
-  "name": "webpack-starters",
+  "name": "webpack_config",
   "version": "1.0.0",
   "private": true,
-  "description": "A collection of different Webpack setups for quick referencing or starting from",
+  "description": "My ideal webpack configuration",
   "scripts": {
     "start": "cross-env SERVE=true webpack serve",
     "watch": "webpack --watch",
@@ -10,7 +10,7 @@
     "build-dev": "webpack",
     "clean": "rm -rf ./dist"
   },
-  "author": "Jimmy DC",
+  "author": "Fatih Celikbas",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.12.10",
