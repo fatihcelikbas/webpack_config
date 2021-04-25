@@ -9,7 +9,22 @@ let mode = "development";
 let target = "web";
 let source_map = "source-map";
 const plugins = [
-  new FaviconsWebpackPlugin('./public/icon.svg'), // it will generate the right icoN
+  new FaviconsWebpackPlugin({
+    logo: './public/icon.svg',
+    cache: true,
+    favicons: {
+      icons: {
+        android: false,              
+        appleIcon: false,             
+        appleStartup: false,         
+        coast: false,                
+        favicons: true,             
+        firefox: false,              
+        windows: false,
+        yandex: false 
+      }
+    }
+  }), // it will generate the right icoN
   new CleanWebpackPlugin(),
   new MiniCssExtractPlugin(),
   new HtmlWebpackPlugin({
