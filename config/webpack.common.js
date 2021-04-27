@@ -1,51 +1,9 @@
-const path = require("path");
-const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const paths = require('./paths');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-
-let mode = "development";
-let target = "web";
-let source_map = "source-map";
-const plugins = [
-  new FaviconsWebpackPlugin({
-    logo: './public/icon.svg',
-    cache: true,
-    favicons: {
-      icons: {
-        android: false,              
-        appleIcon: false,             
-        appleStartup: false,         
-        coast: false,                
-        favicons: true,             
-        firefox: false,              
-        windows: false,
-        yandex: false 
-      }
-    }
-  }), // it will generate the right icoN
-  new MiniCssExtractPlugin(),
-  new HtmlWebpackPlugin({
-    template: "./src/index.html",
-  }),
-];
-
-if (process.env.NODE_ENV === "production") {
-  mode = "production";
-  // Temporary workaround for 'browserslist' bug that is being patched in the near future
-  target = "browserslist";
-  source_map = false;
-}
-
-if (process.env.SERVE) {
-  // We only want React Hot Reloading in serve mode
-  plugins.push(new ReactRefreshWebpackPlugin());
-}
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  // mode defaults to 'production' if not set
-  mode: mode,
-
   // This is unnecessary in Webpack 5, because it's the default.
   // However, react-refresh-webpack-plugin can't find the entry without it.
   entry: "./src/index.js",
@@ -53,7 +11,7 @@ module.exports = {
   output: {
     filename: '[name].[contenthash].js',
     // output path is required for `clean-webpack-plugin`
-    path: path.resolve(__dirname, "dist"),
+    path: paths.build,
     // this places all images processed in an image folder
     assetModuleFilename: "images/[hash][ext][query]",
     // completely wipes /dist at every build
@@ -62,21 +20,6 @@ module.exports = {
 
   module: {
     rules: [
-      {
-        test: /\.(s[ac]|c)ss$/i,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            // This is required for asset imports in CSS, such as url()
-            options: { publicPath: "" },
-          },
-          "css-loader",
-          "postcss-loader",
-          // according to the docs, sass-loader should be at the bottom, which
-          // loads it first to avoid prefixes in your sourcemaps and other issues.
-          "sass-loader",
-        ],
-      },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
         /**
@@ -119,19 +62,45 @@ module.exports = {
     ],
   },
 
-  plugins: plugins,
-
-  target: target,
-
-  devtool: source_map,
+  plugins: [
+    new FaviconsWebpackPlugin({
+      logo: paths.public + '/icon.svg',
+      mode: 'auto',
+      cache: true,
+      favicons: {
+        icons: {
+          android: false,              
+          appleIcon: false,             
+          appleStartup: false,         
+          coast: false,                
+          favicons: true,             
+          firefox: false,              
+          windows: false,
+          yandex: false 
+        }
+      }
+    }), // it will generate the right icon
+    new HtmlWebpackPlugin({
+      title: 'Webpack React config',
+      template: paths.src + '/template.html', // template file
+      filename: 'index.html', // output file
+    }),
+    // Copies files from target to destination folder
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: paths.public,
+          to: 'assets',
+          globOptions: {
+            ignore: ['*.DS_Store', '**/*icon.svg'],
+          },
+          noErrorOnMissing: true,
+        },
+      ],
+    }),
+  ],
 
   resolve: {
     extensions: [".js", ".jsx"],
-  },
-
-  // required if using webpack-dev-server
-  devServer: {
-    contentBase: "./dist",
-    hot: true,
   },
 };
