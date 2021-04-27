@@ -1,7 +1,6 @@
 const path = require("path");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
@@ -25,7 +24,6 @@ const plugins = [
       }
     }
   }), // it will generate the right icoN
-  new CleanWebpackPlugin(),
   new MiniCssExtractPlugin(),
   new HtmlWebpackPlugin({
     template: "./src/index.html",
@@ -53,10 +51,13 @@ module.exports = {
   entry: "./src/index.js",
 
   output: {
+    filename: '[name].[contenthash].js',
     // output path is required for `clean-webpack-plugin`
     path: path.resolve(__dirname, "dist"),
     // this places all images processed in an image folder
     assetModuleFilename: "images/[hash][ext][query]",
+    // completely wipes /dist at every build
+    clean: true
   },
 
   module: {
