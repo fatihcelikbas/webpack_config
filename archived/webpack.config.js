@@ -44,7 +44,7 @@ if (process.env.SERVE) {
 
 module.exports = {
   // mode defaults to 'production' if not set
-  mode: mode,
+  mode,
 
   // This is unnecessary in Webpack 5, because it's the default.
   // However, react-refresh-webpack-plugin can't find the entry without it.
@@ -119,9 +119,9 @@ module.exports = {
     ],
   },
 
-  plugins: plugins,
+  plugins,
 
-  target: target,
+  target,
 
   devtool: source_map,
 

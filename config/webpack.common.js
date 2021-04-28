@@ -1,8 +1,8 @@
-const paths = require('./paths');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const paths = require('./paths');
 
 module.exports = {
   // This is unnecessary in Webpack 5, because it's the default.
@@ -65,7 +65,7 @@ module.exports = {
 
   plugins: [
     new FaviconsWebpackPlugin({
-      logo: paths.public + '/icon.svg',
+      logo: `${paths.public}/icon.svg`,
       mode: 'auto',
       cache: true,
       favicons: {
@@ -83,7 +83,7 @@ module.exports = {
     }), // it will generate the right icon
     new HtmlWebpackPlugin({
       title: 'Webpack React config',
-      template: paths.src + '/template.html', // template file
+      template: `${paths.src}/template.html`, // template file
       filename: 'index.html', // output file
     }),
     // Copies files from target to destination folder

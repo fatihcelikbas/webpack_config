@@ -1,6 +1,6 @@
 const merge = require('webpack-merge'); // if version >= 5 use name export
-const common = require('./webpack.common.js');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
   mode: 'development',

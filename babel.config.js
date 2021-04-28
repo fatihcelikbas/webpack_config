@@ -11,5 +11,5 @@ module.exports = {
     // in files only using JSX (no state or React methods)
     ['@babel/preset-react', { runtime: 'automatic' }],
   ],
-  plugins: plugins,
+  plugins,
 };
